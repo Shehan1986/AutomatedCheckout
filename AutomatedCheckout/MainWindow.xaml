@@ -1,0 +1,72 @@
+﻿<Window x:Class="AutomatedCheckout.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Automated Checkout" Height="600" Width="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Automated Checkout" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                <TextBlock Text="Available Items: (Double click on the item to checkout)" FontWeight="Bold" Margin="0,0,0,10"/>
+                <ListView x:Name="lvItems" 
+                          ItemsSource="{Binding AvailableItems}"
+                          SelectionMode="Single"
+                          MouseDoubleClick="lvItems_MouseDoubleClick"
+                          Height="300">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Width="100"/>
+                                <TextBlock Text="{Binding Price, StringFormat='{}{0} Kr'}" Width="80"/>
+                                <TextBlock Text="{Binding PriceType}" Width="80"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Checkout Items: (Double click on the item to delete)" FontWeight="Bold" Margin="0,0,0,10"/>
+                <ListView Grid.Row="1" 
+                          x:Name="lvCheckout" 
+                          ItemsSource="{Binding CheckoutItems}"
+                          MouseDoubleClick="lvCheckout_MouseDoubleClick" Margin="0,0,0,124">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Width="100"/>
+                                <TextBlock Text="{Binding Quantity}" Width="50"/>
+                                <TextBlock Text="{Binding UnitLabel}" Width="40"/>
+                                <TextBlock Text="{Binding Price, StringFormat='{}{0} Kr'}" Width="80"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <ListView Grid.Row="1" x:Name="DiscountListView" Margin="0,329,0,0" Background="Azure"/>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Calculate Total" x:Name="btnCalculateTotal" Click="btnCalculateTotal_Click" Width="120" Margin="0,0,10,0"/>
+            <TextBlock x:Name="txbTotal" Text="Total: 0 Kr" FontWeight="Bold" VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>
